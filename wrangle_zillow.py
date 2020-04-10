@@ -44,9 +44,6 @@ def wrangle_plain_data():
 
 def wrangle_zillow():
 
-    # fips = pd.read_csv("fips_state_data")
-    # fips = fips.rename(columns={"FIPS": "fips", "Name": "county", "State":"state"})
-    # fips = fips.drop(columns = "Unnamed: 0")
     data = [["CA", "Los Angeles", 6037], ["CA", "Orange County", 6059], ["CA", "Ventura County", 6111]]
     fips = pd.DataFrame(data, columns= ["state", "county", "fips"])
     zillow_data = pd.read_csv("zillow_plain_data.csv")
@@ -55,7 +52,6 @@ def wrangle_zillow():
     zillow_data = zillow_data.dropna()
     zillow_data.fips = zillow_data.fips.astype(int)
     zillow_data = zillow_data.merge(fips, left_on="fips", right_on="fips")
-    # zillow_data = zillow_data.drop(columns = "Unnamed: 0")
     zillow_data = zillow_data.rename(columns={"bathroomcnt": "bathrooms", "bedroomcnt": "bedrooms", "calculatedfinishedsquarefeet": "square_feet", "taxvaluedollarcnt": "house_value"})
     zillow_data["bedroom_sqft"] = zillow_data.bedrooms * 219
     zillow_data["bathroom_sqft"] = zillow_data.bathrooms * 40
@@ -78,9 +74,8 @@ def add__house_value_bins(df):
     return df
 
 def wrangle_geo_data(df):
-    fips = pd.read_csv("fips_state_data")
-    fips = fips.rename(columns={"FIPS": "fips", "Name": "county", "State":"state"})
-    fips = fips.drop(columns = "Unnamed: 0")
+    data = [["CA", "Los Angeles", 6037], ["CA", "Orange County", 6059], ["CA", "Ventura County", 6111]]
+    fips = pd.DataFrame(data, columns= ["state", "county", "fips"])
     df.fips = df.fips.astype(int)
     geo_data = df.merge(fips, left_on="fips", right_on="fips")
     return geo_data
