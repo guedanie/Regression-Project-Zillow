@@ -31,7 +31,7 @@ def pull_csv_file():
     plain_data.to_csv("zillow_plain_data.csv")
     
 
-def check_for_json_file(file_name):
+def check_for_csv_file(file_name):
     if os.path.exists(file_name) == False:
         pull_csv_file()
 
@@ -83,11 +83,13 @@ def wrangle_geo_data(df):
 def remove_outliers(zillow_data):        
     zillow_data = zillow_data.drop(zillow_data[zillow_data.bathrooms > 7].index) # 100
 
-    zillow_data = zillow_data.drop(zillow_data[zillow_data.square_feet > 5_000].index) # 125
+    # zillow_data = zillow_data.drop(zillow_data[zillow_data.square_feet > 5_000].index) # 125
 
     zillow_data = zillow_data.drop(zillow_data[zillow_data.bedrooms > 6].index) # 23
 
     zillow_data = zillow_data.drop(zillow_data[zillow_data.lotsizesquarefeet > 2_000_000].index) #1
+
+    zillow_data = zillow_data.drop(zillow_data[zillow_data.house_value > 6_000_000].index) #1
 
     return zillow_data
 
